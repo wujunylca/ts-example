@@ -21,6 +21,7 @@ export default class Home extends React.Component<{},IsState> {
   }
 componentDidMount() {
   // useCount({count:1})
+//  console.log('useTitle',useTitle(1001)) ;
 }
 handleCount = () => {
 
@@ -31,7 +32,6 @@ handleCount = () => {
       <div>
            <Hello title='ts' />
            <Hello title='js' />
-
            {
             //  <Example />
            }
