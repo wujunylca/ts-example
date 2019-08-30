@@ -18,7 +18,7 @@ function NameContent({name,children,onhandleChange}:NameType) {
   }
   console.log('调用useTitle',useTitle(1001))
   // const otherName =  changeName(name)   这种方式，点击内容的时候，会触发changeName 调用，实际这不应该调用，
-  // useCallback =  useMemo 检测函数参数，改变的时候才会调用. 这种方式一般用 useState 使用解决
+  // useCallback(fn,inputs) =  useMemo=(()=>fn,inputs) 检测函数参数，改变的时候才会调用. 这种方式一般用 useState 使用解决
   const otherName =  useMemo(()=> changeName(name),[name]);
 
   return (

@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react';
 import dva, { connect } from 'dva';
+import route from 'umi/router';
 import { Button } from 'antd';
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
       <div>
         reducer 的值 {hooks.count}
         <button onClick={()=> {dispatch({type:'hooks/add'})}}>点击开始存储count</button>
+        <button onClick={()=>{route.push('/hooks_useEffect')}} >点击跳转到useEffect</button>
       </div>
     )
  }
