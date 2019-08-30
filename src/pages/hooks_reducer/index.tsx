@@ -8,14 +8,15 @@ interface Props {
   },
   dispatch:Function
 }
-// hooks 特点   将UI和状态相分离，renderprops 和高阶组件的混合体
-
-// 不存在ui ,以 use开头封装功能（有状态的组件没有渲染，仅仅处理数据）， 存在UI,封装成组件；（有渲染的组件没有状态，仅仅渲染数据）
+// useReducer  这里并不使用这个, 采用dva 的数据模型，能做更多的事
  function HooksExample ({hooks,dispatch}:Props) {
   const {count} = hooks;
-  //  console.log('ssssssssss',props)
+  //  useEffect 一些副作用的处理地方，默认会执行一次，这里检测属性count 变化会执行， 生命周期的作用
    useEffect(()=>{
       console.log('ddddd',count)
+      return  () =>  {
+        console.log('组件卸下的时候会调用')
+      }
    },[count])
 
     return (
