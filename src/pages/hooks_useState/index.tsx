@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import dva, { connect } from 'dva';
 import { Button } from 'antd';
+// 保存组件状态
 
 // hooks 特点   将UI和状态相分离，renderprops 和高阶组件的混合体
 

@@ -10,6 +10,7 @@ type NameType = {
   onhandleChange:Function
 }
 
+// 记忆组件
 function NameContent({name,children,onhandleChange}:NameType) {
   function changeName(name:string) {
     console.log('11')

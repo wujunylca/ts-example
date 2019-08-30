@@ -19,10 +19,10 @@ import { Button } from 'antd';
    })
 
     return (
-      <div>
+      <>
         {value}
-        <button onClick={()=>{route.push('/hooks_reducer')}}>点击跳转到reducer页面</button>
-      </div>
+        <Button onClick={()=>{route.push('/hooks_reducer')}}>点击跳转到reducer页面</Button>
+      </>
     )
  }
 
