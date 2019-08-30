@@ -2,7 +2,6 @@ import React,{useState, useRef,useImperativeHandle,forwardRef} from 'react';
 import dva, { connect } from 'dva';
 import { Button,Input } from 'antd';
 
-// ref 可变，最好整个生命周期保持一个
 function ChilInput (props:any,ref:any) {
   const inputRef = useRef(null);
   useImperativeHandle(ref,()=>inputRef.current); // 父组件获取子组件,透传ref
