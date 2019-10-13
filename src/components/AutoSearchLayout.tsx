@@ -52,14 +52,15 @@ export default class AutoFormSearchLayout extends React.Component<IsProps> {
           ...item
           }));
       return (
-      <Form>
-          <Row gutter={24} >
+      <Form >
+          <Row gutter={24} justify='start' >
               {
                   Array.isArray(arr) &&arr.length>=1 ?
                       arr.map((item) => (
                          item.isShow? <Col
                               key={item.name}
                               span={item.span}
+                              style={{textAlign:"left"}}
                           >
                               <FormItem label={item.label} {...item.formLayout}>
                                   {

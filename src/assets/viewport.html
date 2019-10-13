@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .ha{
+      height:0;
+      width:100%;
+      background: red;
+      padding-top: 75%;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    css像素仅仅是抽象单位；物理像素是真实的设备像素；
+   PC 端   css 像素 = 物理像素/分辨率 = 750（设计稿）/ 980（屏幕宽）=0.76    1像素可以用0.76 物理像素表示
+   移动端  750/375 = 2    1像素 可以用 2物理像素表示
+   这会引起无法统一样式；
+
+   解决方案：媒体查询（代码较多时候繁杂）；
+           百分比布局 （ 宽高相当于直接父级 ） padding margin 相当于直接父级的宽度； top,left,right,bottom 相当于 直接父级的高度  border-radius :相当于自身
+                     计算困难，相对父元素不是唯一，出现计算问题
+           rem 解决方案：只相当于根结点去换算，不管层级如何嵌套 缺点：在响应式布局中，必须通过js来动态控制根元素font-size的大小。
+           vw/vh 解决方案：vw 适口宽度，vh 适口高度
+                         1px = （1/像素）*100 vw
+  </div>
+
+  <div class="ha" >
+    测试padding
+  </div>
+</body>
+</html>

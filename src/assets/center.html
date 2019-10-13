@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* 方式1：固定的宽高 ， 缺点是很难知道子元素的宽高*/
+    .wp{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    .wp-chi {
+      width: 100px;
+      height: 100px;
+      border:1px solid #eee;
+      position: absolute;
+      top:50%;
+      left:50%;
+      margin-left: -50px;
+      margin-top:-50px;
+    }
+    /* 固定宽度 margin: auto */
+    .wp1{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    .wp-chi1 {
+      width: 100px;
+      height: 100px;
+      border:1px solid #eee;
+      position: absolute;
+      top:0;
+      right:0;
+      bottom:0;
+      left:0;
+      margin:auto
+    }
+    /* css calc  */
+    .wp2{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    .wp-chi2 {
+      width: 100px;
+      height: 100px;
+      border:1px solid #eee;
+      position: absolute;
+     top:calc( 50% - 50px );
+     left:calc(50% - 50px )
+    }
+/* 无需知道子元素的宽高 */
+    .wp3{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    .wp-chi3 {
+      width: 100px;
+      height: 100px;
+      border:1px solid #eee;
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%,-50%)
+    }
+    /* 用行内快款速 ，但是文字会错位 */
+    .wp4{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      line-height: 300px;
+      text-align: center;
+      /* position: relative; */
+    }
+    .wp-chi4 {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      border:1px solid #eee;
+      /* position: absolute; */
+      vertical-align: middle;
+
+      /* 行高基线 */
+    line-height: initial;
+      text-align: left;
+      /* top:50%;
+      left:50%;
+      transform: translate(-50%,-50%) */
+    }
+    /* 让div显示和tabel 一样 */
+    .wp4{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .wp-chi4 {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+    }
+    .wp5{
+      border: 1px solid red;
+      width: 300px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center
+    }
+    .wp-chi5 {
+      width: 100px;
+      height: 100px;
+      /* display: inline-block; */
+    }
+
+    /* // flex 布局 推荐 */
+  </style>
+</head>
+<body>
+  <div class='wp'>
+    <div class='wp-chi'>
+      你要居中了吗
+    </div>
+  </div>
+  <div class='wp1'>
+    <div class='wp-chi1'>
+      你要居中了吗
+    </div>
+  </div>
+  <div class='wp2'>
+    <div class='wp-chi2'>
+      你要居中了吗
+    </div>
+  </div>
+  <div class='wp3'>
+    <div class='wp-chi3'>
+      你要居中了吗
+    </div>
+  </div>
+  <div class='wp4'>
+    <div class='wp-chi4'>
+      你要居中了吗
+    </div>
+  </div>
+  <div class='wp5'>
+    <div class='wp-chi5'>
+      你要居中了吗
+    </div>
+  </div>
+</body>
+</html>

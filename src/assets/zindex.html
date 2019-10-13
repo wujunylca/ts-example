@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .child{
+
+    }
+  </style>
+</head>
+<body>
+  <p>
+    z-index 仅仅在定位非 static 有用。并且还要考虑堆叠顺序和上线文
+    css 三维结构：首先决定的是上下文环境决定，再考虑不同的堆叠顺序，不同的堆叠上下文才有堆叠的顺序
+
+    说明：同一个堆叠上下文有比较；内部的堆叠只在自己的上下文环境比较，再大，也不会影响别的堆叠的顺序
+  </p>
+  <div>
+
+
+    外层的包裹层
+    <div class="child">
+      堆叠的顺序
+    </div>
+  </div>
+</body>
+</html>
