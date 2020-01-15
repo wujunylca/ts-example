@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body >
+  <div id='list'>
+    <a class='router' data-key='/page1' >路由页面1</a>
+    <a class='router' data-key='/page2' >路由页面2</a>
+    <a class='router'data-key='/page3'>路由页面3</a>
+  </div>
+  <div id='ddd'>page1</div>
+  <script>
+    const pageData = [
+      {id:"/page1",component:'<span>我是页面1</span>'},
+      {id:"/page2",component:'<span>我是页面2</span>'},
+      {id:"/page3",component:'<span>我是页面3</span>'}
+    ]
+    // window.onload =function(opt) {
+    //   window.onhashchange = function(opt) {
+    //     const filterData = pageData.filter(item => item.id === location.hash );
+    //     const body = document.getElementById('ddd');
+    //     body.innerHTML = filterData[0].component
+    //   }
+    // }
+    window.onload =function(opt) {
+     const router =  document.querySelector('#list')
+     console.log('router',router)
+     router.addEventListener('click',function(e) {
+       const r = e.target.getAttribute('data-key');
+      //  history.pushState({
+      //    url:location.origin + r,
+      //    path: router.path,
+      //   content: router.content
+      //  },'',r);
+        console.log(e.target.getAttribute('data-key'))
+        const body = document.getElementById('ddd');
+                const filterData = pageData.filter(item => item.id === r );
+          body.innerHTML = filterData[0].component
+      })
+      // window.onhashchange = function(opt) {
+      //   const filterData = pageData.filter(item => item.id === location.hash );
+      //   const body = document.getElementById('ddd');
+      //   body.innerHTML = filterData[0].component
+      // }
+    }
+  </script>
+</body>
+</html>

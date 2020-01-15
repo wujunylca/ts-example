@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 创建this,代码在执行的时候，创建执行上下文，会创建this，指向当期调用的实例。call,apply，继承别的函数中的实例(对象冒充)，继承的东西将添加到当前的实例（this）中
+    // 作用，扩展作用域，扩展属性
+    var foo = {
+      value:1
+    }
+    function bar() {
+      this.name = 'hahhah'
+      console.log(this,this.name);
+    }
+    bar.call(foo);
+
+// apply 、 call 、bind 三者都是用来改变函数的this对象的指向的；
+// apply 、 call 、bind 三者第一个参数都是this要指向的对象，也就是想指定的上下文；
+// apply 、 call 、bind 三者都可以利用后续参数传参；
+// bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调用 。
+
+// 类数组转数组
+
+const a= Array.prototype.slice.call({0:"1",1:'2',length:2});
+console.log('ddddd',a)
+
+
+
+  </script>
+</body>
+</html>

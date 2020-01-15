@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    点击事件
+    <div onclick="handle(1)">事件1</div>
+    <div onclick="handle(2)"> 事件2</div>
+    <div onclick="handle(3)" >事件3</div>
+  </div>
+  <script>
+    // if else switch
+    // 将判断条件作为属性名，将处理的逻辑作为属性值
+    function handle(status) {
+
+      // 写法1:
+      const actions ={
+        1:()=> {
+          console.log('ddd')
+        },
+        2:() => {
+          console.log('ccc')
+        },
+        3:() => {
+          console.log('vvv')
+        }
+      }
+      actions[status]();
+
+      // 写法2:
+      const actions2 = new Map([
+        [1,()=>{ console.log('点击了第一个') }],
+        [2,()=>{ console.log('点击了第二个') }],
+        [3,()=>{ console.log('点击了第二个') }],
+      ])
+      actions2.get(status)();
+
+      // 写法3: 正则的写法，哈哈哈
+      const actions3 = new Map([
+        [/[12]/,()=>{ console.log('1，2 执行这个') }],
+        [/[3]/,()=>{ console.log('3执行这个') }],
+      ]);
+      [...actions3].filter( ([key,value])=> {
+       return key.test(`${status}`)?value():"";
+      } )
+    };
+
+
+  </script>
+  <script>
+    // 拷贝： 浅拷贝，复制一层引用
+
+    // 区分数组和对象
+    function shallowClone(source) {
+      if(Array.isArray(source)) {
+        let arr = source.slice();
+        return arr;
+      }
+      if(source instanceof Object) {
+        let arr ={};
+          for(let p in source ) {
+          arr[p] = source[p]
+        }
+        return arr;
+      }
+    }
+    console.log(' arr[p] = source(p)',shallowClone(['123']))
+
+    // 深拷贝
+    // 浅拷贝和递归实现
+    function clone(source) {
+      if(Array.isArray(source)) {
+        let arr = source.slice();
+        return arr;
+      }
+      if(source instanceof Object) {
+        let arr ={};
+          for(let p in source ) {
+          arr[p] = source[p]
+        }
+        return arr;
+      }
+    }
+
+  </script>
+</body>
+</html>

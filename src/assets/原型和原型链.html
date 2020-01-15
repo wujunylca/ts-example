@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script>
+    //构造函数
+    function Person () {
+
+    }
+    Person.prototype ={
+      name:'ddd'
+    }
+    var a = new Person();
+    console.log('---',a.name)
+    // prototype 是属性 指向了一个对象，这个对象就是（调用该函数而创建的实例的原型）原型。也就是a 中的原型(Person.prototype).
+    // 实例和实例原型之间的关系，实例指向原型通过 __proto__
+    // 每一个Javascript都有 _proto_ 属性，会指向原型
+    console.log(a.__proto__ === Person.prototype)
+    // 原型指向 实例没有，因为每个构造函数可以生成多个实例， 但是原型可以指向构造函数（constructor）,原型都有一个 constructor 属性指向关联的构造函数
+
+    console.log(Person === Person.prototype.constructor)
+
+    // 原型链：当读取实例的属性时，如果找不到，就会查找与对象关联的原型中的属性，如果还查不到，就去找原型的原型，一直找到最顶层为止。顶层是Object
+    console.log(a.constructor ===Person.prototype.constructor)
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let a= [];
+    for(let i=0;i<10;i++) {
+      a[i] =function() {
+        console.log(i)
+      }
+    }
+    a[0]();
+
+    /*
+    1.cosnt let
+      存在暂时性死区，因此变量应该先声明后使用；
+      同一个作用域不能重复声明
+      不能在函数中重新声明参数
+      具有块级作用域
+      避免在块级作用域声明函数，顶层或者函数作用域
+      全局变量将逐步与顶层对象的属性脱钩。
+
+      区别：const 声明不允许改变，必须立刻赋值
+    */
+
+// 可以添加修改属性，但是不能改变引用
+    const obj ={}
+    obj.name='ssss';
+    obj.name='222'
+    // obj = {}
+    console.log('obj--',obj)
+
+  /*
+  解构赋值:
+  数据的解构:
+        结构对应,结构不成功是undefined,这种情况叫不完全解构；
+        具有Iterator 接口，都可以解构；
+        允许解构的时候指定默认值，只有值为undefined才会生效；如果默认值是一个表达式，那么这个表达式是惰性求值的，即只有在用到的时候，才会求值。
+  对象解构：
+        对象解构可以取别名
+  函数参数解构：
+
+  解构原则：不要使用圆括号
+
+  用途：交换变量的值，从函数中返回多个值；提取json ,函数参数的默认值
+  */
+
+  const {p,p:{x}} = {p:{x:'1111'}}
+  console.log('---p',p,x)
+
+  /*
+    1.字符串具有遍历器接口
+    2.字符串模板
+  */
+
+  const arr = '哦-2-1';
+  for(let p of arr) {
+    console.log(p)
+  }
+
+  /*
+  函数的扩展
+   可以指定默认值；
+   reset 参数是真实的数组，后面不能再有参数了。
+  */
+
+
+  /*
+    Set 集合： 新的数据结构，类似于数组。成员全部是没有重复的值
+
+  */
+
+// 传递数组作为初始值，范围set结构的数据,也可以接受类数组进行初始话
+  const aSet = new Set([1,2,3,1,2,3])
+// 转化为数组 [...aSet]
+
+// 去除重复的字符串或者数组
+console.log([...new Set('d33413')].join(''),[...new Set([1,2,34,1,2])])
+
+// 属性和方法
+// 添加 已经存在，不会添加进去
+ aSet.add(1);
+
+ // 判断 返回 boolean
+ aSet.has(1)
+
+ // Array.form(new Set()) 转化为数组
+
+ // 满足 for of 结构  只是key ，和value 一样 ，因此 keys values entries 方法都可以使用 ，也可以使用forEach 方法
+
+ // 实现并集交集和差集
+
+ const setArr1 = new Set([1,2,3,4]) ;
+ const setArr2 = new Set([1,2,5]) ;
+
+ // 并集
+
+const unque = [...new Set([...setArr1,...setArr2])];
+
+console.log('并集',unque)
+
+// 交集
+
+const con = new Set([...setArr1].filter( i => setArr2.has(i)))
+
+console.log('交集',con)
+
+// 差集
+
+const con2 = new Set([...setArr1].filter( i => !setArr2.has(i)))
+
+console.log('交集',con2)
+
+
+// WeakSet 弱引用 ，只能接受对象，不能遍历; 接受数组：接受的是数组的成员，而不是数组本身，因此，数组成员必须是一个对象
+
+const weakSetObj =  new  WeakSet();
+
+const obj11 ={};
+weakSetObj.add(obj11);
+
+
+console.log('weakSetObj',weakSetObj.has(obj11))
+
+// WeakMap 接收键值对，建值必须是对象，基本类型不行。典型的存储dom节点，不及入垃圾回收。不会造成内存泄漏。
+
+// 内存泄漏的原因：全局事件监听，dom 引入释放，避免无效函数引用。
+
+
+/*
+  proxy 对对象进行拦截处理。
+*/
+
+const proxyA = new Proxy ({},{
+  get:(target,key,receiver) => {
+    console.log('-----',target,key,receiver)
+    return Reflect.get(target, key, receiver);
+  }
+})
+
+proxyA.count =1;
+
+proxyA.count++;
+
+// 实现属性的私有化，不允许修改属性
+
+const objKey = new Proxy({key:"123-3221"},{
+  set:(target,key,value,proxy) => {
+    if(target.hasOwnProperty(key)) {
+      throw Error(`${key} is not allow to change `)
+    }
+
+    return Reflect.get(target,key,value, proxy)
+  },
+  get:(target,key,proxy) => {
+    if(!target.hasOwnProperty(key)) {
+      throw Error(`${key} is undefined `)
+    }
+   
+    return Reflect.get(target,key,proxy)
+
+  }
+})
+// objKey.key ='ddd'
+console.log('objKey.name',objKey.key)
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 桶排序
+    // 复杂度 m+n
+    // 思想: 将数组的每个值作为新数组的下标，然后出现几次，下标值存储+1.
+
+    const  arr = [1,2,2,6,6,4];
+
+    const sortArr = (arr) => {
+
+      //初始化存储全为0
+      const initArrMax = 11;
+      const initArr =[];
+      for(let i=0;i<initArrMax;i++) {
+        initArr[i] =0
+      }
+      // 记录每个值为索引
+      for(let i =0;i<arr.length;i++) {
+        initArr[arr[i]] ++;
+      }
+
+      // 循环取出索引值
+      const getSortArr = [];
+      for(let i =0; i<initArr.length;i++) {
+        if(initArr[i] !==0) {
+          for (let j =0;j<initArr[i];j++) {
+            getSortArr.push(i)
+          }
+        }
+      }
+      return getSortArr;
+    }
+    console.log('112',sortArr(arr));
+
+
+    // 问题：浪费存储空间，无法解决别的排序问题，如果是小数如何呢
+
+    // 冒泡算法
+
+    // 原理：如果每次选出一个数，每次比较剩下的数，如果小于，就交换位置。（从大到小），会进行n-1次，
+    // 每次只会比较相邻地址的两个值。循环执行的是遍历索引。而值已经交换过位置
+
+    const popArr = [1,2,67,89,23,2,1];
+
+    const popArrSort = (arr) => {
+
+      // const newArr =[];
+      const length = arr.length;
+      for(let i =0;i<length;i++) {
+        for(let j =0;j<length-i;j++) {
+          if(arr[j]<arr[j+1]) {
+            let t = arr[j+1];
+            arr[j+1] = arr[j];
+            arr[j] = t;
+          }
+        }
+      }
+      return arr;
+    }
+    console.log('popArrSort',popArrSort(popArr))
+
+    // 冒泡排序算法，浪费空间和慢
+    // 复杂度：Nlog(N)
+    // 快速排序算法：找到基准点，左边的数都小于这个基数，右边的数都大于这个数。右边的数先出发
+
+    const quickSort = (arr) => {
+      // 只有一个数组的时候返回
+      if(arr.length<=1) {
+        return arr;
+      }
+
+      let left =[];
+      let right =[];
+      const tempIndex = Math.floor(arr.length / 2);
+      for(let i=0;i<arr.length;i++) {
+        if(arr[0]<=arr[tempIndex]) {
+          left.push(arr[i])
+        } else {
+          right.push(arr[j])
+        }
+      }
+      return quickSort(left).concat(arr[tempIndex]).concat(quickSort(right))
+    }
+
+    console.log('quickSort',popArr)
+
+    // 队列：只能在头部删除，尾部加入的操作。
+
+    const headTailArr = [6,3,1,7,5,8,9,2,4];
+    const newArr = [];
+    const headTailArrFun =(arr) => {
+
+      if(arr.length<=1) {
+        return newArr.push(arr[0])
+      }
+      newArr.push(arr[0])
+      arr.shift(arr[0])
+      arr.push(arr[0])
+      arr.shift(arr[0])
+      headTailArrFun(arr)
+      return newArr
+    }
+
+    console.log('headTailArrFun',headTailArrFun(headTailArr))
+
+    // 栈，只能在队尾进行操作的结构
+    // 判断是否是一个回文字符串
+
+    const reverseStr = (str) => {
+      // const patter = /[\W_]/;
+      const newArr = str.split('').reverse().join('');
+      return newArr === str;
+    }
+    console.log('reverseStr',reverseStr('Afafa'))
+
+
+  // 列表：一个线性的表结构，有很多属性
+  // 首先：定义抽象的类型
+
+  class List {
+
+    constructor(){
+      this.size = 0; // 列表元素个数
+      this.data =[]; //存储元素
+      this.append = (element) => { // 添加元素
+        this.data[this.size++] = element;
+      }
+      this.remove = (element) => { // 删除元素
+      const index = this.data.findIndex((i) => i===element );
+        if(index > -1) {
+          this.data.splice(index,1);
+          this.size--;
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    static ggg = 'ddddd'
+
+  };
+
+  const listObj = new List();
+  listObj.append('123');
+  listObj.remove('123');
+  console.log('---List',listObj.data)
+
+  // 栈的使用：
+  // 栈：数据结构，在一端进行操作。只能从一端进行操作，先入后出。并不一定用数组实现
+
+  class Stack {
+    constructor() {
+      this.dataSource =[]; //数组实现
+      this.top = 0;// 指向栈顶，默认指向数组中的第一个
+      this.pop = () => { // 删除栈顶元素
+
+        const innerTop = --this.top;
+        const popItem = this.dataSource[innerTop]  // 先存储一下，防止先删除了，找不到。
+        this.dataSource.splice(innerTop,1)
+        return popItem;
+      }
+      this.push =(element) => { // 将元素压入栈顶
+        this.dataSource[this.top++] = element;
+      }
+      this.peek =() => {
+        return this.dataSource[this.top-1]
+      }
+      this.clear = () => {
+        this.dataSource =[];
+        this.top=0;
+      }
+      this.length =() => {
+        return this.top;
+      }
+    }
+  }
+
+  const stack = new Stack();
+  stack.push('1-3');
+  stack.push('1-1');
+  stack.push('1-2');
+  stack.clear();
+  console.log('stack',stack.length(),stack.top,stack.dataSource)
+
+
+
+  // 实例栈 将10进制数转化为，2-9 进制的数
+  function convertBase(num,base) {
+    const s =  new Stack();
+    do{
+      s.push(num%base);
+      num = Math.floor(num/base)
+    }while(num >0)
+    // console.log('ddd',s.pop(), s.dataSource,)
+    let str ='';
+    while (s.length()>0) {
+      str += s.pop();
+    }
+    return str;
+  }
+
+  console.log('数值进制转换了',convertBase(10,2))
+
+// 判断是否是回文字符串
+
+function isReserveStr (str) {
+  const s =new Stack();
+  const strArr = str.split('');
+  for(let i=0;i<strArr.length;i++) {
+    s.push(strArr[i])
+  }
+let newStr =''
+  while(s.length()>0) {
+    newStr+=s.pop();
+  }
+
+  if(newStr === str){
+    return true;
+  }else {
+    return false;
+  }
+}
+
+console.log('appppa 是回文字符串吗',isReserveStr("appppa"))
+
+// 队列：是一种先进先出的数据结构，队尾加入元素，队头删除元素。
+
+// 用数组实现队列
+
+class Queue{
+  constructor() {
+    this.data =[];
+    this.push = (element) => {
+      this.data.push(element)
+    }
+    this.shift = (element) => {
+      this.data.shift(element);
+    }
+    this.front =() => {
+      return this.data[0]
+    }
+    this.end = () => {
+    return this.data[this.data.length-1]
+    }
+    this.toString =() => {
+      let str ='';
+      for(let i=0;i<this.data.length;i++) {
+        str+=this.data[i];
+      }
+      return str;
+    }
+    this.empty =() => {
+      if(this.data.length===0) {
+        return true;
+      }
+      return false;
+    }
+  }
+}
+
+const quene = new Queue();
+quene.push('12');
+quene.push('123');
+quene.push('1234');
+quene.shift();
+console.log('Queue data',quene.data,quene.front(),quene.end(),quene.toString())
+
+// 链表的使用：数组使用很慢，对数据随机访问，任何一维数组中。
+// 链表：节点组成的集合，每一个节点都使用一个对象引用指向它的后继，指向一个节点的引用叫链表，链表元素通过相互引用进行引用。
+// 问题：标识链表的头部比较困难，因此一般创建链表时候，定义头部节点
+// 链表插入一个元素的节点：需要修改他前面的节点指向新加入的节点，新加入的节点；新加入的节点则指向原来前驱指向的节点。
+
+// 创建一个基于对象的链表
+// 首先：Node 类表示节点；LinkList 表示链表的操作，插入删除节点。单项链表
+
+class Node {
+  constructor(element) {
+    this.element = element;
+    this.next = null;
+  }
+}
+
+class LinkList {
+  constructor() {
+    this.head = new Node('head'); // 头部节点
+
+  }
+ find = (element) => {
+   let currentNode = this.head;
+   while(currentNode !== element && currentNode.next !== null) {
+    currentNode = currentNode.next;
+   }
+   return currentNode;
+ }
+ insert = (newElement,insetElement) => {
+   let newNode = new Node(newElement);
+   let current = this.find(insetElement);
+   newNode.next = current.next;
+   current.next = newNode;
+ }
+ findPrev =(deletElement) => {
+   let currentNode = this.head;
+   while( currentNode.next !== null && currentNode.next.element !==deletElement ) {
+     currentNode = currentNode.next;
+   }
+   return currentNode;
+ }
+ remove = (deletElement) => {
+   const findPrev = this.findPrev(deletElement);
+   if(findPrev !== null) {
+    findPrev.next = findPrev.next.next;
+   }
+
+ }
+ dispaly =() => {
+   let current = this.head;
+   while(current.next !== null) {
+     console.log(current.next.element);
+     current = current.next;
+   }
+ }
+}
+
+const cities = new LinkList();
+cities.insert('123','head');
+cities.insert('1234','123');
+cities.insert('12345','1234');
+cities.dispaly();
+cities.remove('123');
+cities.dispaly();
+
+// 双项链表，添加一个指向前者的指针
+
+class DoubleNode {
+  constructor(element) {
+    this.element = element;
+    this.next = null;
+    this.prev = null;
+  }
+}
+
+class DoubleLinkList {
+  constructor () {
+    this.head = new Node('head');
+  }
+  find =(element) => {
+    // 获取到第一个头部节点，从头部开始查找
+    let currentNode = this.head;
+    while(currentNode.element !== element && currentNode.next !== null) {
+      currentNode = currentNode.next;
+    }
+    return currentNode;
+  }
+  // 在当前节点之后插入
+  insert =(element,node) => {
+    let newNode = new DoubleNode(element);
+    let currentNode = this.find(node);
+
+    console.log('currentNode',currentNode)
+    newNode.next = currentNode.next;
+    newNode.prev = currentNode;
+    currentNode.next = newNode;
+
+  }
+  remove =(element) => {
+    let currentNode = this.find(element);
+    // 如果是next 为null ,表示是删除的是最后一个节点
+    if(currentNode.next === null) {
+      currentNode.prev.next = null;
+      currentNode.next = null;
+      currentNode.prev = null;
+      return;
+    }
+    currentNode.prev.next = currentNode.next;
+    currentNode.next.prev = currentNode.prev;
+    currentNode.next = null;
+    currentNode.prev = null;
+  }
+  findLast =() => {
+    let current = this.head;
+    while(current.next !==null) {
+      current = current.next;
+    }
+    return current;
+  }
+  dispaly =() => {
+   let current = this.head;
+   while(current.next !== null) {
+     console.log(current.next.element);
+     current = current.next;
+   }
+ }
+}
+
+const doubleLinkList = new DoubleLinkList();
+doubleLinkList.insert('1','head');
+doubleLinkList.insert('2','1');
+doubleLinkList.insert('3','2');
+doubleLinkList.insert('4','3');
+doubleLinkList.remove('4');
+
+console.log(doubleLinkList.dispaly())
+
+
+// 字典：数据结构，键值对的形式。js中Object 就是字典实现的。数组也是特殊的对象。
+
+class Dictionary {
+  constructor() {
+    this.dataSource = new Array();
+  }
+  add = (key,value) => {
+    return this.dataSource[key] = value;
+  }
+  find =(key) => {
+    return this.dataSource[key];
+  }
+  remove =(key) => {
+    delete this.dataSource[key]
+  }
+  showAll =() => {
+    for(let i of this.dataSource) {
+      console.log(i);
+    }
+  }
+
+}
+
+// 树的结构:
+
+// 先定义节点，每次要加入的节点
+  class TreeNode {
+    constructor(data,left,right) {
+      this.data = data;
+      this.left = left;
+      this.right = right;
+    }
+
+    show =() => {
+      return this.data;
+    }
+  }
+
+  // 定义二叉树
+
+  class BST {
+    constructor() {
+      this.root = null; //是否是根节点
+
+    }
+    insert =(data) => {
+      // 创建一个要插入的节点
+      let newNode = new TreeNode(data,null,null);
+
+      // 判断根节点是否存在，不存在的话，就将当前节点设置为根节点，根节点存在，则判断加入左节点还是右节点
+
+      if(this.root === null) {
+        this.root = newNode
+      }else {
+        // 设置当前节点，用于比较新节点插入到哪里,从根节点开始
+        let currentNode = this.root;
+        let parent; // 缓存父节点
+
+        while(true) {
+          parent = currentNode;
+          if(data<=currentNode.data) { // 如果比当前节点小
+            currentNode =  currentNode.left // 设置当前节点为左节点
+            if(currentNode ===null){
+              parent.left = newNode;
+              break;
+            }
+          } else { // 比当前节点大
+            currentNode = currentNode.right;
+            if(currentNode === null) {
+              parent.right = newNode;
+              break;
+            }
+          }
+        }
+
+      }
+    }
+    // 中序遍历
+    inOrder =(node) => {
+      if(node !== null) {
+        inOrder(node.left);
+        inOrder(node.right);
+      }
+    }
+    getMin =() => {
+      let current = this.root;
+      while(current.left !== null) {
+        current = current.left;
+      }
+      return current.data;
+    }
+    getMax =() => {
+      let current = this.root;
+      while (current.right !== null) {
+        current = current.right;
+      }
+      return current.data;
+    }
+  }
+
+  const bst = new BST();
+  bst.insert('1');
+  bst.insert('10');
+  bst.insert('2');
+  bst.insert('3');
+  bst.insert('5');
+
+  console.log('二叉树插入数据',bst.getMin(),bst.getMax())
+
+  //排序算法
+  // 冒泡排序：每次选择一个值，依次比较左右两个值
+
+  const popArrSort2 =(arr) => {
+    for(let i=0;i<arr.length;i++) {
+      for(let j=0;j<arr.length-i;j++) {
+        if(arr[j]<=arr[j+1]) {
+          let t = arr[j+1];
+          arr[j+1] = arr[j];
+          arr[j] = t;
+        }
+      }
+    }
+    return arr;
+  }
+
+  console.log('冒泡排序',popArrSort2([1,2,2,4,5]))
+
+  // 选择排序: 选择第一个数，依次比较，把最小值放入最左边。第二次选择第二个数开始
+
+  // 和冒泡排序的区别就是：并不急于交换位置，只有找到比基准值小的再交换位置。
+
+  const selctSort =(arr) => {
+
+    for(let j =0 ;j<arr.length;j++) {
+      let min = arr[j];
+      for(let i=j+1;i<arr.length;i++) {
+        if(arr[i]<min) {
+          // 找到最小值，交换两者的位置
+          arr[j] = arr[i];
+          arr[i] = min;
+        }
+      }
+    }
+    return arr;
+  }
+
+  console.log('选择排序算法',selctSort([1,4,3,4,4]))
+
+  // 插入排序：每次找到一个基准值，然后往前比较，如果当前位置的值，比基准值大，交换位置，否则结束本次循环，不交换。再将基准值与前一个数比较；就是将大数往后移一下。
+
+  const insetSort =(arr) => {
+    const length = arr.length;
+    for(let i=1;i<length;i++) { // 循环每个基准值
+      let temp = arr[i] // 设置基准值
+      for(let j=i;j>0;j--){ // 比较基准值，大数往后移
+        if(arr[j]<arr[j-1]) {
+          arr[j] =arr[j-1];
+          arr[j-1] =temp;
+        }else {
+          break;
+        }
+      }
+    }
+    return arr;
+  }
+
+  console.log('inset',insetSort([6,5,4,2,3]))
+
+  // 快速排序：小数在左边，大数放右边。然后递归，递归结束的条件是，数组里面的值只有一个。
+
+  const fastSort =(arr) => {
+
+    if(arr.length <=1) {
+      return arr
+    }
+    let left = [];
+    let right =[];
+    const midele = Math.floor(arr.length/2);
+    const midleValue = arr.splice(midele,1);
+    for(let i=0;i<arr.length;i++) {
+      if(arr[i] < midleValue) {
+        left.push(arr[i]);
+      }
+      if(arr[i]>midleValue) {
+        right.push(arr[i])
+      }
+    }
+    return fastSort(left).concat(midleValue,fastSort(right))
+  }
+
+  console.log('cccccc',fastSort([2,3,1,4,5,2,43,3]))
+
+  // 希尔排序：首先是循环间隔，基准值是当前数据的间隔值，往前比较，这组的大数往前移动
+
+  const sellSort =(arr,gap) => {
+    for(let i=0;i<gap.length;i++) { // 依次取gap,插入排序的间隔
+      // 插入排序的间隔就不是1了，步长就是gap[i]
+      let n = gap[i];
+      for(let j= i+ n;j<arr.length;j++) { // 依次取出基准比较值
+        for(let k=j;k>0;k-=n) {
+          if(arr[k]<arr[k-n]) {
+            [arr[k],arr[k-n]] = [arr[k-n],arr[k]]
+          } else {
+            break;
+          }
+        }
+      }
+    }
+    return arr
+  }
+
+  console.log('希尔排序',sellSort([1,2,5,6,2,3,5],[5,3,1]))
+
+
+  </script>
+</body>
+</html>

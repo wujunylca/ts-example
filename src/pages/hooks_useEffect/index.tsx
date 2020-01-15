@@ -12,11 +12,13 @@ import { Button } from 'antd';
    useEffect(()=>{
       // console.log('ddddd',count)
 
+      // return 会先执行一次，才会第一次执行这个 ，类似 comDidmount
+
       setValue('哈哈哈哈,值改变了')
-      return  () =>  {
+      return  () =>  { // 清除一些副作用
         console.log('1111')   // 不添加检测值的时候，这里首次会执行的，组件卸载后又会调用一次
       }
-   })
+   },[])
 
     return (
       <>

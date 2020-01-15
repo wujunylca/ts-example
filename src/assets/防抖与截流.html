@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    // 非立即执行版
+    function debounce(fn,delay,...args) {
+      let timeout ;
+      return function() {
+        const _this =this;
+        if(timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          fn.apply(_this,args)
+        },delay)
+      }
+    }
+    // 立即执行版
+
+    function _debounce(fn,delay,...args) {
+      let timeout ;
+      return () => {
+        if(timeout) clearTimeout(timeout);
+
+        let callNow = !timeout;
+        timeout = setTimeout(() => {
+          timeout = null;
+        },delay)
+        if(callNow) {
+          fn.apply(this,args)
+        }
+
+      }
+    }
+
+    function add () {
+      console.log('11111')
+    }
+    // setInterval(_debounce(add,1000),500)
+    setInterval(debounce(add,1000),500) // 不会触发
+  </script>
+</body>
+</html>

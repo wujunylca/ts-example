@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script >
+  // 词法作用域，静态作用域。函数的作用域在函数定义的时候就定义好了，只有在函数调用的时候才决定。
+
+  var scope = 'global scope';
+  function checkScope() {
+    var scope = 'local scope';
+    function f() {
+      return scope;
+    }
+    return f
+  }
+  console.log('----',checkScope()())
+
+  // 函数提升，变量提升。js 的可执行代码，三种：全局代码，函数代码，eval 代码。当执行到一个函数的时候就会执行上下文栈。
+  // 多个函数如何执行上下文。
+  function fun3() {
+    console.log('fun3')
+}
+
+function fun2() {
+    fun3();
+}
+
+function fun1() {
+    fun2();
+}
+
+fun1();
+  // js 解释代码的时候，会创建全局上下文栈，压入上下文栈；
+  //这里先调用fun1 ,创建fun1执行上下文，入栈。fun1,调用了fun2，创建fun2的上下文栈，入栈，。。。。；
+  // fun3 执行完，出栈，fun2执行完，出栈,fun1执行完，出栈
+
+
+  // 每个上下文都有三个重要的属性：变量对象，作用域链，this
+  // 全局上下文中的变量对象就是全局对象呐,此时this指向window
+  // 进入执行上下文时，首先会处理函数声明，其次会处理变量声明，如果如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性。
+
+  console.log(foo);
+  function foo() {
+    console.log('foo')
+  }
+
+  var foo=1
+
+  var b= {
+    name:'12'
+  }
+  function B(o) {
+    o='14'
+  }
+  B(b);
+  console.log(b.name)
+
+  </script>
+</body>
+</html>

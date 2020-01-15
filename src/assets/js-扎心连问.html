@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  /*
+    1.原生数据类型,引用数据概念
+      原生7：number boolean string  undefined null symbol bigint
+      引用类型6：Object Array RegExp Date Math Function
+  */
+
+  /*
+  ECMAScript中所有函数的参数都是按值传递的
+  分两种：第一种传递的是简单数据，令人费解的是传递是对象
+      如果传递的是对象，仅仅传递的是对象的副本，如果对里面的参数改变，会找到引用地址，修改其属性值；如果直接修改副本对象，并不会修改原值。
+  */
+  function test(person) {
+    person.age = 26;
+    person = {
+      name:"123",
+      age:12
+    }
+    return person;
+  }
+  const p1 = {
+    name:'234',
+    age:13
+  }
+  const p2 = test(p1);
+  console.log(p1,p2);
+
+  const o ={
+    name:'123'
+  }
+  function changeO (o){
+    o='1234'
+  }
+  console.log(changeO(o),o); // 如果是按照引用传递，这里的o会改变
+
+  /*
+    null 是对象吗？
+    null 不是对象，这个js的一个bug . typeof null === "object" 是因为
+    在 JS 的最初版本中使用的是 32 位系统，为了性能考虑使用低位存储变量的类型信息，000 开头代表是对象然而 null 表示为全零，所以将它错误的判断为 object 。
+  */
+
+  /*
+    '1'.toString() 为什么可以被调用
+    基本的类型，其实都是继承与Object类型。都有toString() 方法
+  */
+
+  /*
+    0.1+0.2 !==0.3 因为转化为二进制，由于标准位的限制，会截掉精度。出现精度损失。此时再转化为10进制，就会变了。
+  */
+
+  /*
+   typeof 能否正确判断类型？
+
+   对于基本类型 ===>  ,其他的都能正确检测
+   typeof null  === Object
+   typeof Synbol === 'function'
+   typeof Synbol === 'symbol
+
+
+   对于引用类型，除了函数吗，其他都是object
+   因此采用typeof判断对象数据类型是不合适的，采用instanceof会更好，instanceof的原理是基于原型链的查询，只要处于原型链中，判断永远为true
+  */
+
+  const Person = function() {};
+  const person1 = new Person();
+  const str = 'ds'
+  // str instanceof String   基本类型会   false
+  const str2 = new String('ddd');
+
+  console.log('ddd',str2 instanceof String)
+
+  console.log(person1 instanceof Object,person1 instanceof Person,str instanceof String)
+
+  // instanceof 可以判断基本类型，通过 instanceof 方法重定义
+
+  /*
+    Object.is() 和 === 的区别
+    修复了一些特殊情况的失误，具体来书+0，-0 和NAN
+
+  */
+
+  function is(x,y){
+    if(x===y) {
+      return x !==0 || y!==0 || 1/x ===1/y
+    } else {
+      return x !==x && y!==y;
+    }
+  }
+  console.log(is('12','12'))
+
+  /*
+   [] == ![] 结果为true
+
+   [] 先转化为0     ![] 转化为false，false转化为0 0==0 为true
+  */
+
+  /*
+   对象转原始类型是根据什么流程走的
+    如果Symbol.toPrimitive()方法，优先调用再返回
+    调用valueOf()，如果转换为原始类型，则返回
+    调用toString()，如果转换为原始类型，则返回
+    如果都没有返回原始类型，会报错,
+
+  */
+
+  const object ={
+    value:3,
+    valueOf() {
+      return 4
+    },
+    toString() {
+      return '5'
+    },
+    [Symbol.toPrimitive](){
+      return 6
+    }
+  }
+  console.log(object +1)
+
+  // 让if(a==1 && a==2) 生效
+
+  const a ={
+    value:0,
+    valueOf(){
+      this.value++;
+      return this.value;
+    }
+  }
+  console.log(a==1 && a==2)
+
+  /*
+    闭包是对于函数而言：
+    闭包是指那些能够访问自由变量的函数。 （其中自由变量，指在函数中使用的，但既不是函数参数arguments也不是函数的局部变量的变量，其实就是另外一个函数作用域中的变量。）
+    简而言之：函数就是一个闭包
+  */
+
+  /*
+    JS 实现继承的方式
+
+    1.借助于call
+      这种方式，如果有函数，就会继承不到方法
+  */
+
+  // function Parent() {
+  //   this.name= 'parent';
+  //   this.play = 'play';
+  //   this.sayName = function () {
+  //     console.log('是你的函数')
+  //   }
+  // }
+
+  // function Child() {
+  //   this.type='type';
+  //   Parent.call(this)
+  // }
+  // const child = new Child();
+  // console.log('child---',child.name,child.sayName())
+
+  /*
+    JS 实现继承的方式
+
+    2.通过原型链
+      属性和方法都可以访问
+      存在多个实例的话，改变父的属性值，会相互影响，因为采用的是同一个原型对象
+  */
+  // function Parent() {
+  //   this.name= 'parent';
+  //   this.play = 'play';
+  //   this.sayName = function () {
+  //     console.log('是你的函数')
+  //   }
+  // }
+
+  // function Child() {
+  //   this.type='type';
+  //   Parent.call(this)
+  // }
+
+  // Child.prototype = new Parent();
+  // const child = new Child();
+  // console.log(child.name,child.sayName())
+
+    /*
+    JS 实现继承的方式
+
+    3.通过原型链和call 结合的方式
+    将当前作用域通过call绑定
+    属性和方法都能访问，且每个原型对象只会影响自身
+
+    问题是：会   Child.prototype = new Parent();会多执行一次
+
+    解决：    Child.prototype = Parent.prototype
+    子类实例的构造函数是 Parent   这是不对的，手动指定constructor
+  */
+
+  // function Parent () {
+  //   this.name='123'
+  // }
+
+  // function Child() {
+  //   Parent.call(this);
+  // }
+
+  // Child.prototype = new Parent();
+
+  // const child1 =new Child();
+  // const child2 = new Child();
+  // child1.name = '234';
+  // console.log(child1.name,child2.name);
+
+    /*
+    JS 实现继承的方式
+    通过之前的叙述，知道了
+    4.寄生组合的方式
+  */
+
+  function Parent () {
+    this.name = 'parent'
+  }
+
+  function Child() {
+    parent.call(this)
+  }
+
+  Child.prototype = Object.create(Parent.prototype)
+  Child.prototype.constructor = Child
+
+  /*
+    从继承的角度说，这一设计是存在巨大隐患的。
+    继承的最大问题在于：无法决定继承哪些属性，所有属性都得继承。
+  */
+
+  /*
+  arguments 为什么不是数组，如何转化为数组
+
+  arguments 类数组 形式如： { 0:'11111',1:"2"  }
+
+  用getElementsByTagName/ClassName()获得的HTMLCollection
+  用querySelector获得的nodeList
+
+  想使用数组的方法，然后转化为数组的方法
+
+  通过 Array.prototype.slice.call()  Array.from()
+  es6 ...
+  Array.prototype.concat.apply
+  */
+
+  function arr() {
+    const arr = Array.prototype.slice.call(arguments);
+    const arr1 = Array.from(arguments)
+    const arr2 = Array.prototype.concat.apply([],arguments);
+    console.log('44444',arr,arr1,[...arguments],arr2)
+  }
+
+  arr(1,2,3)
+
+  /*
+   函数forEach 里面return 不生效,只会截断本次操作，而不会让循环退出。
+  */
+
+  let nums = [1,2,3];
+  nums.forEach(item => {
+    if(Object.is(item,2)) {
+      return;
+    }
+    console.log('1111',item)
+  })
+
+  /*
+  判断数组是否包含某个值
+  [].indexOf(n)  查找函数中n 的下标，找不到返回-1
+  [].includes(n) 返回 boolean
+  [].find(()=>{}) 找到第一个满足条件的函数
+  [].findIndex(()=>{}) 返回第一个满足条件的下标
+  */
+
+  const arrTest= [1,2,3,4];
+
+  console.log(arrTest.indexOf(2))
+
+
+  /*
+  JS中数据的扁平化
+
+    let ary = [1, [2, [3, [4, 5]]], 6];// -> [1, 2, 3, 4, 5, 6]
+
+  */
+
+  const ary = [1, [2, [3, [4, 5]]], 6];
+
+// 1. es6 flat
+console.log(ary.flat(Infinity)); // flat(2) 传递数组，表示要拉平的层级，如果无论多少层级拉平传入Infinity
+
+// 2. replce + split
+  console.log(JSON.stringify(ary).replace(/(\[|\])/g,'').split(','))
+
+// 3.普通函数
+
+let result =[];
+function flatArr(arr) {
+  arr.forEach(i => {
+    if(Array.isArray(i)){
+      flatArr(i)
+    } else {
+      result.push(i)
+    }
+  })
+}
+flatArr(ary)
+console.log(result)
+
+/*
+  高阶函数:可以接收一个函数作为参数
+*/
+
+
+/*
+  this的指向：
+  1. 默认全文上下文默认是指向this指向window。
+  2. 对象的属性调用
+    两种方式：
+    let obj = {
+        a: function() {
+         console.log(this);
+         }
+    }
+    先创建副本，会指向window
+    let func = obj.a;
+    func();
+    // obj.a(); 会指向对象本身
+  3.DOM 事件绑定，this会指向绑定事件的元素
+  4.new + 构造函数 会指向实例本身
+  5.箭头函数没有this ,也不能绑定this,会绑定最近的创建的this，但是对象方法不立即执行，会指向window
+*/
+
+let obj ={
+  name:'11232',
+  a:function() {
+    const doSome =() => {
+      console.log('dddd',this)
+    }
+    doSome();
+  }
+}
+ const aOnj = obj.a;
+ aOnj();
+ console.log(this,'---00')
+
+ const arrow = () => {
+   this.name ='2222'
+   console.log(this) // 这里指向全局
+ }
+ arrow()
+
+ /*
+  拷贝：浅拷贝：仅仅可以拷贝一层对象，深拷贝：可以拷贝多层对象
+
+
+
+ */
+
+//  1.手动实现  let p in  (适应用于对象和函数)
+
+const shallowClone =(target) => {
+  if(typeof target === 'object' && target !==null) {
+    const cloneTarget = Array.isArray(target)?[]:{}
+    for(let prop in target) {
+        cloneTarget[prop] = target[prop]
+    }
+    return cloneTarget;
+  }else {
+    return target
+  }
+}
+
+console.log('shallowClone',shallowClone([1,2,3,{ca:'1'},[12,3,[1,2]]]))
+
+// object.assign() 创建对象的浅拷贝
+
+console.log(Object.assign({},{name:'123',age:12}))
+
+// 数组的浅拷贝  slice concat  [...]
+
+// 深拷贝 ：会开辟一块内存空间。和之前的对象完全独立，浅拷贝只是引用对象，一个改变了会影响拷贝的内容
+
+// 弱引用
+const deepClone = (target,map =new WeakMap()) => {
+  // 循环引用的问题
+  if(map.get(target)) {
+    return target
+  }
+
+  if(typeof target ==='object') {
+    map.set(target,true)
+    const cloneTarget = Array.isArray(target)?[]:{}
+    for(let p in target ) {
+      cloneTarget[p] = deepClone(target[p],map)
+    }
+  }else {
+    return target;
+  }
+}
+
+/*
+  js内存机制只问，数据是如何存储的
+
+  基本的数据存在栈内存中，引用数据存在堆内存，闭包存在堆内存中
+  对于赋值操作，原始类型的数据直接完整地复制变量值，对象数据类型的数据则是复制引用地址。
+
+*/
+
+/*
+js 事件循环： 宏观任务和微观任务
+
+宏观任务：主线程执行，常见的任务
+1.事件渲染
+2.用户交互事件
+3.js脚本执行
+4.网络请求/文件读写完成
+
+队列执行的方式：普通任务队列和宏观任务队列
+
+微观任务：异步回调的过程
+当该宏任务执行完成，会检查其中的微任务队列，如果为空则直接执行下一个宏任务，如果不为空，则依次执行微任务，执行完成才去执行下一个宏任务。
+常见的微任务有MutationObserver、Promise.then(或.reject) 以及以 Promise 为基础开发的其他技术(比如fetch API), 还包括 V8 的垃圾回收过程。
+
+*/
+
+/*
+事件循环：浏览器
+
+一开始整段脚本作为第一个宏任务执行
+执行过程中同步代码直接执行，宏任务进入宏任务队列，微任务进入微任务队列
+当前宏任务执行完出队，检查微任务队列，如果有则依次执行，直到微任务队列为空
+执行浏览器 UI 线程的渲染工作
+检查是否有Web worker任务，有则执行
+执行队首新的宏任务，回到2，依此循环，直到宏任务和微任务队列都为空
+
+*/
+
+  </script>
+</body>
+</html>

@@ -12,10 +12,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "strict": true,
+    "outDir": "lib",
     "paths": {
       "@/*": ["src/*"],
       "@utils/*":["src/utils/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
   }
 }

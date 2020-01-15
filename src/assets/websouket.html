@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    // 创建一个实例
+    const ws = new WebSocket('ws://localhost:3000');
+    // 连接
+    ws.onopen = function() {
+      console.log('websocket 已经打开');
+      ws.send('hello server');
+    }
+    ws.onmessage = function(e) {
+      console.log("client：接收到服务端的消息 " + e.data);
+      setTimeout(() => {
+        ws.close();
+      }, 5000);
+    };
+  </script>
+</body>
+</html>
